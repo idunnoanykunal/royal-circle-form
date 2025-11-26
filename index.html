@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Royal Circle - Heritage & Creative Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Georgia', serif;
+            background: #ede8d0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: #722f37;
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .header::before,
+        .header::after {
+            content: "✦";
+            display: block;
+            font-size: 24px;
+            margin: 10px 0;
+            opacity: 0.8;
+            letter-spacing: 10px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .form-container {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, rgba(237, 232, 208, 0.5) 0%, rgba(237, 232, 208, 0) 100%);
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #722f37;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d4af37;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Garamond', 'Georgia', serif;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        input[type="text"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #722f37;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row-full {
+            grid-column: 1 / -1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #722f37;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 13px;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .btn-submit {
+            background: #722f37;
+            color: white;
+            box-shadow: 0 5px 15px rgba(114, 47, 55, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(114, 47, 55, 0.6);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-reset:hover {
+            background: #e8e8e8;
+            border-color: #d0d0d0;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid #28a745;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .form-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 6px;
+            font-style: italic;
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Royal Circle</h1>
+            <p>Connect. Create. Reform.<br>We bridge the gap between culture and commerce, giving creatives a place to converge and transform heritage-inspired ideas into thriving businesses.</p>
+        </div>
+
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                ✦ Welcome to The Royal Circle. Your application has been received with honor.
+            </div>
+
+            <form id="communityForm">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+
+                <!-- Contact and Locality Row -->
+                <div class="form-group">
+                    <div class="form-row">
+                        <div>
+                            <label for="contact">Contact Number <span class="required">*</span></label>
+                            <input type="tel" id="contact" name="contact" placeholder="+91 9876543210" required>
+                            <div class="form-hint">Your phone number</div>
+                        </div>
+                        <div>
+                            <label for="locality">City / Locality <span class="required">*</span></label>
+                            <input type="text" id="locality" name="locality" placeholder="e.g., Pune, Mumbai" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- From Jaipur -->
+                <div class="form-group">
+                    <label>From Jaipur? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="jaipur-yes" name="fromJaipur" value="Yes" required>
+                            <label for="jaipur-yes">Yes</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="jaipur-no" name="fromJaipur" value="No" required>
+                            <label for="jaipur-no">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What you saw in Royal Circle -->
+                <div class="form-group">
+                    <label for="royalCircle">Your Heritage Connection <span class="required">*</span></label>
+                    <textarea id="royalCircle" name="royalCircle" placeholder="Share what inspired you at Royal Circle - be it cultural, artistic, or entrepreneurial..." required></textarea>
+                    <div class="form-hint">Tell us about your experience or what resonated with you</div>
+                </div>
+
+                <!-- Current Projects -->
+                <div class="form-group">
+                    <label for="projects">Creative Ventures & Projects <span class="required">*</span></label>
+                    <textarea id="projects" name="projects" placeholder="Describe your heritage-inspired projects, collaborations, or innovative ideas..." required></textarea>
+                    <div class="form-hint">Share what you're creating or developing</div>
+                </div>
+
+                <!-- What are you into -->
+                <div class="form-group">
+                    <label>Areas of Expertise <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="art" name="interests" value="Traditional Art & Crafts">
+                            <label for="art">Traditional Art & Crafts</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="music" name="interests" value="Classical & Folk Music">
+                            <label for="music">Classical & Folk Music</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech" name="interests" value="Digital Innovation">
+                            <label for="tech">Digital Innovation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="business" name="interests" value="Heritage Commerce">
+                            <label for="business">Heritage Commerce</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="culture" name="interests" value="Cultural Studies">
+                            <label for="culture">Cultural Studies</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="photography" name="interests" value="Visual Documentation">
+                            <label for="photography">Visual Documentation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="writing" name="interests" value="Heritage Writing">
+                            <label for="writing">Heritage Writing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="entrepreneurship" name="interests" value="Social Entrepreneurship">
+                            <label for="entrepreneurship">Social Entrepreneurship</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-container">
+                    <button type="submit" class="btn-submit">Join the Circle</button>
+                    <button type="reset" class="btn-reset">Clear Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('communityForm');
+        const successMessage = document.getElementById('successMessage');
+
+        // Form submission handler
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validate at least one interest is selected
+            const interests = document.querySelectorAll('input[name="interests"]:checked');
+            if (interests.length === 0) {
+                alert('Please select at least one interest in the "What are you into?" section.');
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                name: document.getElementById('name').value,
+                contact: document.getElementById('contact').value,
+                locality: document.getElementById('locality').value,
+                fromJaipur: document.querySelector('input[name="fromJaipur"]:checked').value,
+                royalCircle: document.getElementById('royalCircle').value,
+                projects: document.getElementById('projects').value,
+                interests: Array.from(interests).map(cb => cb.value)
+            };
+
+            // Log data to console (in production, you'd send this to a server)
+            console.log('Community Form Data:', formData);
+
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Reset form
+            form.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+        });
+
+        // Enhanced interaction - add visual feedback on input focus
+        const inputs = document.querySelectorAll('input[type="text"], input[type="tel"], textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
