@@ -78,14 +78,27 @@ function doPost(e) {
 
 ## Step 5: Deploy as Web App
 
-1. Click **Deploy** → **New Deployment** (or **Manage Deployments** if updating)
+**⚠️ CRITICAL: You MUST redeploy after updating the script code, otherwise changes won't take effect!**
+
+1. Click **Deploy** → **Manage Deployments** (if you have an existing deployment)
+2. Click the **pencil icon** (Edit) next to your deployment
+3. Click **New version** (this creates a new version with your updated code)
+4. Click **Deploy**
+5. Copy the deployment URL
+
+**OR** if creating a new deployment:
+
+1. Click **Deploy** → **New Deployment**
 2. Select type: **Web app**
 3. Execute as: (Your email)
-4. Who has access: **Anyone**
-5. Click **Deploy** (or **Update** if editing existing deployment)
-6. Copy the deployment URL (looks like: `https://script.google.com/macros/s/SCRIPT_ID/usercopy`)
+4. Who has access: **Anyone** (this is required!)
+5. Click **Deploy**
+6. Copy the deployment URL (looks like: `https://script.google.com/macros/s/SCRIPT_ID/exec`)
 
-**Note:** If updating an existing deployment, make sure to update the version number.
+**Important Notes:**
+- If updating an existing deployment, you MUST create a "New version" - just clicking Deploy won't update it
+- The deployment must be set to "Anyone" for the form to work
+- After redeploying, wait 1-2 minutes for changes to propagate
 
 ## Step 6: Update Your Form
 
