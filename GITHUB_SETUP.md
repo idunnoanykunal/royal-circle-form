@@ -71,9 +71,10 @@ git push -u origin main
 2. Click **Settings** (on the repository page)
 3. Click **Pages** (left sidebar)
 4. Under "Build and deployment":
-   - **Source:** Select "Deploy from a branch"
-   - **Branch:** Select "main" and folder "/ (root)"
+   - **Source:** Select "GitHub Actions"
 5. Click **Save**
+
+**Note:** A GitHub Actions workflow has been set up automatically. Once you enable GitHub Actions as the source, it will automatically deploy your form whenever you push changes to the main branch.
 
 ---
 
