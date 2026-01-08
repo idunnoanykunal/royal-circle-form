@@ -339,6 +339,123 @@
             display: none;
         }
 
+        /* Payment QR Code Section */
+        .payment-section {
+            background: linear-gradient(135deg, rgba(237, 232, 208, 0.3) 0%, rgba(237, 232, 208, 0.1) 100%);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .payment-title {
+            font-size: 24px;
+            color: #722f37;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .qr-code-container {
+            display: inline-block;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .qr-code-container img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .payment-info {
+            font-size: 14px;
+            color: #555;
+            margin-top: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* File Upload Section */
+        .file-upload-container {
+            margin-top: 30px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px dashed #d4af37;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.95);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: #722f37;
+            background-color: white;
+        }
+
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #722f37;
+            box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.1);
+        }
+
+        .file-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .file-preview.show {
+            display: block;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .file-preview-name {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .remove-file {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+        }
+
+        .remove-file:hover {
+            background: #c0392b;
+        }
+
         @media (max-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -493,6 +610,7 @@
                 <div class="page-indicator">
                     <div class="page-dot active" data-page="1"></div>
                     <div class="page-dot" data-page="2"></div>
+                    <div class="page-dot" data-page="3"></div>
                 </div>
 
                 <!-- Page 1 -->
@@ -630,7 +748,45 @@
 
                     <!-- Navigation Buttons -->
                     <div class="button-container">
-                        <button type="button" class="btn-nav" id="prevBtn">← Previous</button>
+                        <button type="button" class="btn-nav" id="prevBtnPage2">← Previous</button>
+                        <button type="button" class="btn-nav" id="nextBtnPage2">Next →</button>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="form-page" id="page3">
+                    <!-- Payment Section -->
+                    <div class="payment-section">
+                        <h3 class="payment-title">Complete Your Registration</h3>
+                        <p class="payment-info">Please scan the QR code below to make your payment</p>
+                        
+                        <div class="qr-code-container">
+                            <img src="payment-qr.png" alt="Payment QR Code" id="paymentQR">
+                        </div>
+                        
+                        <p class="payment-info">
+                            <strong>UPI ID:</strong> 8000618045@ptaxis<br>
+                            After payment, please upload a screenshot of your payment confirmation below.
+                        </p>
+                    </div>
+
+                    <!-- Payment Screenshot Upload -->
+                    <div class="form-group file-upload-container">
+                        <label for="paymentScreenshot">Payment Screenshot <span class="required">*</span></label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
+                            <div class="form-hint">Upload a screenshot of your payment confirmation (JPG, PNG, or PDF)</div>
+                        </div>
+                        <div class="file-preview" id="filePreview">
+                            <img id="previewImage" src="" alt="Preview">
+                            <div class="file-preview-name" id="fileName"></div>
+                            <button type="button" class="remove-file" id="removeFile">Remove File</button>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="button-container">
+                        <button type="button" class="btn-nav" id="prevBtnPage3">← Previous</button>
                         <button type="submit" class="btn-submit">Join the Circle</button>
                     </div>
                 </div>
@@ -716,9 +872,51 @@
             }
         });
 
-        // Previous button handler
-        document.getElementById('prevBtn').addEventListener('click', function() {
+        // Previous button handler (page 2)
+        document.getElementById('prevBtnPage2').addEventListener('click', function() {
             showPage(1);
+        });
+
+        // Next button handler (page 2)
+        document.getElementById('nextBtnPage2').addEventListener('click', function() {
+            // Validate page 2 fields
+            const page2 = document.getElementById('page2');
+            const requiredFields = page2.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    const group = document.querySelectorAll(`input[name="${field.name}"]`);
+                    const isChecked = Array.from(group).some(input => input.checked);
+                    if (!isChecked) {
+                        isValid = false;
+                        field.closest('.form-group').style.borderColor = '#e74c3c';
+                    } else {
+                        field.closest('.form-group').style.borderColor = '';
+                    }
+                } else if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#e74c3c';
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+
+            // Check location is selected
+            const location = document.getElementById('location').value.trim();
+            if (!location) {
+                alert('Please select your location on the map.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                showPage(3);
+            }
+        });
+
+        // Previous button handler (page 3)
+        document.getElementById('prevBtnPage3').addEventListener('click', function() {
+            showPage(2);
         });
 
         // Initialize Leaflet Map (OpenStreetMap - Free, no API key needed)
@@ -819,9 +1017,59 @@
             document.getElementById('locationSearch').value = address;
         }
 
+        // File upload preview handler
+        const fileInput = document.getElementById('paymentScreenshot');
+        const filePreview = document.getElementById('filePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileName = document.getElementById('fileName');
+        const removeFileBtn = document.getElementById('removeFile');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        filePreview.classList.add('show');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please upload an image file (JPG, PNG, etc.)');
+                    fileInput.value = '';
+                    return;
+                }
+                fileName.textContent = 'File: ' + file.name;
+            }
+        });
+
+        removeFileBtn.addEventListener('click', function() {
+            fileInput.value = '';
+            filePreview.classList.remove('show');
+            previewImage.src = '';
+            fileName.textContent = '';
+        });
+
+        // Convert file to base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
         // Form submission handler
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // Validate page 3 fields
+            const paymentScreenshot = fileInput.files[0];
+            if (!paymentScreenshot) {
+                alert('Please upload a screenshot of your payment confirmation.');
+                return;
+            }
 
             // Validate page 2 fields
             const address = document.getElementById('address').value.trim();
@@ -832,6 +1080,7 @@
 
             if (!address || !location || !contact || !locality || !fromJaipur) {
                 alert('Please fill in all required fields on page 2.');
+                showPage(2);
                 return;
             }
 
@@ -843,29 +1092,38 @@
                 return;
             }
 
-            // Collect form data from both pages
-            const formData = {
-                name: document.getElementById('name').value,
-                profession: document.getElementById('profession').value,
-                instagram: document.getElementById('instagram').value,
-                royalCircle: document.getElementById('royalCircle').value,
-                projects: document.getElementById('projects').value,
-                interests: Array.from(interests).map(cb => cb.value).join(', '),
-                address: address,
-                contact: contact,
-                locality: locality,
-                fromJaipur: fromJaipur.value,
-                location: location,
-                latitude: document.getElementById('latitude').value,
-                longitude: document.getElementById('longitude').value,
-                timestamp: new Date().toLocaleString()
-            };
+            // Convert file to base64 and collect form data
+            fileToBase64(paymentScreenshot).then(fileBase64 => {
+                // Collect form data from all pages
+                const formData = {
+                    name: document.getElementById('name').value,
+                    profession: document.getElementById('profession').value,
+                    instagram: document.getElementById('instagram').value,
+                    royalCircle: document.getElementById('royalCircle').value,
+                    projects: document.getElementById('projects').value,
+                    interests: Array.from(interests).map(cb => cb.value).join(', '),
+                    address: address,
+                    contact: contact,
+                    locality: locality,
+                    fromJaipur: fromJaipur.value,
+                    location: location,
+                    latitude: document.getElementById('latitude').value,
+                    longitude: document.getElementById('longitude').value,
+                    paymentScreenshot: fileBase64,
+                    paymentScreenshotName: paymentScreenshot.name,
+                    paymentScreenshotType: paymentScreenshot.type,
+                    timestamp: new Date().toLocaleString()
+                };
 
-            // Log data to console for debugging
-            console.log('Form Data:', formData);
+                // Log data to console for debugging
+                console.log('Form Data:', formData);
 
-            // Send to Google Sheets
-            sendToGoogleSheets(formData);
+                // Send to Google Sheets
+                sendToGoogleSheets(formData);
+            }).catch(error => {
+                console.error('Error converting file:', error);
+                alert('Error processing file. Please try again.');
+            });
         });
 
         // Function to show thank you screen

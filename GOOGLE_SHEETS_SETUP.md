@@ -8,33 +8,43 @@
 4. In the first row, add these column headers:
    - A1: `Timestamp`
    - B1: `Name`
-   - C1: `Contact`
-   - D1: `Locality`
-   - E1: `From Jaipur`
-   - F1: `Heritage Connection`
-   - G1: `Projects`
-   - H1: `Areas of Expertise`
-   - I1: `Address`
-   - J1: `Location`
-   - K1: `Latitude`
-   - L1: `Longitude`
-   - M1: `Profession`
-   - N1: `Instagram Handle`
+   - C1: `Profession`
+   - D1: `Instagram Handle`
+   - E1: `Heritage Connection`
+   - F1: `Projects`
+   - G1: `Areas of Expertise`
+   - H1: `Address`
+   - I1: `Contact`
+   - J1: `Locality`
+   - K1: `From Jaipur`
+   - L1: `Location`
+   - M1: `Latitude`
+   - N1: `Longitude`
+   - O1: `Payment Screenshot URL`
 
 ## Step 2: Update Existing Sheet (If You Already Have One)
 
 **Skip this step if you're creating a new sheet.**
 
-If you already have a Google Sheet set up with the old columns, you need to add the new columns:
+If you already have a Google Sheet set up with the old columns, you need to update the columns:
 
 1. Open your existing Google Sheet
-2. Add these new column headers in row 1 (after column H):
-   - I1: `Address`
-   - J1: `Location`
-   - K1: `Latitude`
-   - L1: `Longitude`
-   - M1: `Profession`
-   - N1: `Instagram Handle`
+2. Update column headers in row 1 to match the new order:
+   - A1: `Timestamp`
+   - B1: `Name`
+   - C1: `Profession`
+   - D1: `Instagram Handle`
+   - E1: `Heritage Connection`
+   - F1: `Projects`
+   - G1: `Areas of Expertise`
+   - H1: `Address`
+   - I1: `Contact`
+   - J1: `Locality`
+   - K1: `From Jaipur`
+   - L1: `Location`
+   - M1: `Latitude`
+   - N1: `Longitude`
+   - O1: `Payment Screenshot URL` (NEW - add this column)
 3. Continue to Step 3 to update your Google Apps Script code
 
 ## Step 3: Create/Update Google Apps Script
@@ -49,28 +59,61 @@ function doPost(e) {
     const sheet = SpreadsheetApp.getActiveSheet();
     const data = JSON.parse(e.postData.contents);
     
-    // Add data to the sheet (includes all fields from both form pages)
+    // Handle file upload if payment screenshot is provided
+    let paymentScreenshotUrl = '';
+    if (data.paymentScreenshot && data.paymentScreenshotName) {
+      try {
+        // Convert base64 to blob
+        const base64Data = data.paymentScreenshot.split(',')[1] || data.paymentScreenshot;
+        const blob = Utilities.newBlob(Utilities.base64Decode(base64Data), data.paymentScreenshotType || 'image/png', data.paymentScreenshotName);
+        
+        // Create folder for payment screenshots if it doesn't exist
+        const folderName = 'Royal Circle Payment Screenshots';
+        let folder;
+        const folders = DriveApp.getFoldersByName(folderName);
+        if (folders.hasNext()) {
+          folder = folders.next();
+        } else {
+          folder = DriveApp.createFolder(folderName);
+        }
+        
+        // Upload file to Google Drive
+        const file = folder.createFile(blob);
+        
+        // Set file permissions to "Anyone with the link can view"
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        
+        // Get file URL
+        paymentScreenshotUrl = file.getUrl();
+      } catch(fileError) {
+        console.error('File upload error:', fileError);
+        paymentScreenshotUrl = 'Error uploading file: ' + fileError.toString();
+      }
+    }
+    
+    // Add data to the sheet (includes all fields from all 3 pages)
     sheet.appendRow([
       data.timestamp,
       data.name,
-      data.contact,
-      data.locality,
-      data.fromJaipur,
+      data.profession || '',
+      data.instagram || '',
       data.royalCircle,
       data.projects,
       data.interests,
       data.address || '',
+      data.contact || '',
+      data.locality || '',
+      data.fromJaipur || '',
       data.location || '',
       data.latitude || '',
       data.longitude || '',
-      data.profession || '',
-      data.instagram || ''
+      paymentScreenshotUrl
     ]);
     
     return ContentService.createTextOutput(JSON.stringify({status: 'success'}))
       .setMimeType(ContentService.MimeType.JSON);
   } catch(e) {
-    return ContentService.createTextOutput(JSON.stringify({status: 'error', error: e}))
+    return ContentService.createTextOutput(JSON.stringify({status: 'error', error: e.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
